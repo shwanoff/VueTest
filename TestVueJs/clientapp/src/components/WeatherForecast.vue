@@ -2,40 +2,21 @@
     <div class="wheather">
         <h1>{{ msg }}</h1>
         <button v-on:click="getWeatherData">Get Weather Data</button>
+        <grid :cols="cols" :rows="weatherDataList" :pagination="true" :search="true" :sort="true" v-if="weatherDataList"></grid>
         <LineChart v-if="loaded" :chartdata="chartdata" :options="options" />
-        <div class="table-responsive">
-            <table class="table-hover" v-if="weatherDataList">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Date</th>
-                        <th>Temperature C</th>
-                        <th>Temperature F</th>
-                        <th>Summary</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(item, idx) in weatherDataList" :key="idx">
-                        <td>{{ idx }}</td>
-                        <td>{{ item.date }}</td>
-                        <td>{{ item.temperatureC }}</td>
-                        <td>{{ item.temperatureF }}</td>
-                        <td>{{ item.summary }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 </template>
 
 <script>
     import LineChart from './LineChart.vue';
+    import Grid from 'gridjs-vue'
 
     export default {
         name: 'WeatherForecast',
 
         components: {
-            LineChart
+            LineChart,
+            Grid
         },
 
         props: {
@@ -43,6 +24,7 @@
         },
 
         data: () => ({
+            cols: ['Date', 'Temperature C', 'Temperature F', 'Summary'],
             loaded: false,
             chartdata: null,
             options: {
